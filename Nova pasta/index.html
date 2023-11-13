@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Robo-Sumo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="images/bateria.png">
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+
+</head>
+<body>
+
+    <h1>Alura Midi</h1>
+
+    <section class="teclado2">
+        <button class="Play">Play</button>
+    </section>
+
+    <audio src="sounds/keyq.wav" id="Play"></audio>
+
+        <script src="main.js"></script>
+
+    <section class="teclado">
+        <button id="frente" data-key="W">W</button>
+        <button id="trás" data-key="S">S</button>
+        <button id="direita" data-key="D">D</button>
+        <button id="esquerda" data-key="A">A</button>
+        <button id="ataque" data-key="F">ATK</button>
+    </section>
+   
+   
+    <script>
+        // Mapeamento das teclas para os botões
+        const teclasParaBotoes = {
+            "W": "frente",
+            "S": "trás",
+            "D": "direita",
+            "A": "esquerda",
+            "F": "ataque"
+        };
+
+
+
+
+
+
+
+
+        // Função para ativar o evento do botão correspondente
+        function ativarEvento(tecla) {
+            const botaoId = teclasParaBotoes[tecla];
+            if (botaoId) {
+                const botao = document.getElementById(botaoId);
+                if (botao) {
+                    botao.click(); // Ativa o evento de clique do botão
+                }
+            }
+        }
+
+        // Adicionar um ouvinte de evento 'keydown' no documento
+        document.addEventListener("keydown", function(event) {
+            const teclaPressionada = event.key.toUpperCase(); // Obtém a tecla pressionada em maiúsculas
+            ativarEvento(teclaPressionada); // Ativa o evento do botão correspondente
+        });
+    </script>
+
+    <script>
+    document.getElementById("ataque").addEventListener("click", async function() {
+        try {
+            const device = await navigator.bluetooth.requestDevice({
+                acceptAllDevices: true,
+                optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+            });
+   
+            const server = await device.gatt.connect();
+            const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+            const characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID da característica Bluetooth do seu Arduino
+   
+            // Enviar um comando para o Arduino (por exemplo, enviar a string "F" para frente)
+            await characteristic.writeValue(new TextEncoder().encode("F"));
+   
+            // Desconectar após o envio
+            server.disconnect();
+        } catch (error) {
+            console.error("Erro na comunicação Bluetooth: " + error);
+        }
+    });
+   
+    document.getElementById("frente").addEventListener("click", async function() {
+        try {
+            const device = await navigator.bluetooth.requestDevice({
+                acceptAllDevices: true,
+                optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+            });
+   
+            const server = await device.gatt.connect();
+            const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+            const characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID da característica Bluetooth do seu Arduino
+   
+            // Enviar um comando para o Arduino (por exemplo, enviar a string "A")
+            await characteristic.writeValue(new TextEncoder().encode("A"));
+   
+            // Desconectar após o envio
+            server.disconnect();
+        } catch (error) {
+            console.error("Erro na comunicação Bluetooth: " + error);
+        }
+    });
+        document.getElementById("trás").addEventListener("click", async function() {
+    try {
+        const device = await navigator.bluetooth.requestDevice({
+            acceptAllDevices: true,
+            optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+        });
+       
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+        const characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID da característica Bluetooth do seu Arduino
+
+        // Enviar um comando para o Arduino (por exemplo, enviar a string "B")
+        await characteristic.writeValue(new TextEncoder().encode("B"));
+       
+        // Desconectar após o envio
+        server.disconnect();
+    } catch (error) {
+        console.error("Erro na comunicação Bluetooth: " + error);
+    }
+    document.getElementById("direita").addEventListener("click", async function() {
+    try {
+        const device = await navigator.bluetooth.requestDevice({
+            acceptAllDevices: true,
+            optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+        });
+       
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+        const characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID da característica Bluetooth do seu Arduino
+
+        // Enviar um comando para o Arduino (por exemplo, enviar a string "C")
+        await characteristic.writeValue(new TextEncoder().encode("C"));
+       
+        // Desconectar após o envio
+        server.disconnect();
+    } catch (error) {
+        console.error("Erro na comunicação Bluetooth: " + error);
+    }
+    document.getElementById("esquerda").addEventListener("click", async function() {
+    try {
+        const device = await navigator.bluetooth.requestDevice({
+            acceptAllDevices: true,
+            optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+        });
+       
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID do serviço Bluetooth do seu Arduino
+        const characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb'); // Substitua pelo UUID da característica Bluetooth do seu Arduino
+
+        // Enviar um comando para o Arduino (por exemplo, enviar a string "D")
+        await characteristic.writeValue(new TextEncoder().encode("D"));
+       
+        // Desconectar após o envio
+        server.disconnect();
+    } catch (error) {
+        console.error("Erro na comunicação Bluetooth: " + error);
+    }
+});
+});
+});
+    ;</script>
+
+</body>
+</html>
